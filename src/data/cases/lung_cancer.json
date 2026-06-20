@@ -12,14 +12,14 @@
     "occupation": "出租车司机",
     "symptoms": ["持续咳嗽", "偶有胸闷"],
     "background": "45岁男性，出租车司机，有20年吸烟史，每天约1包烟。最近3个月持续咳嗽，起初以为是感冒，但症状未缓解。",
-    "portrait": "/assets/images/characters/lung_driver.jpg"
+    "portrait": "/assets/images/characters/lung_driver.webp"
   },
   "scenes": [
     {
       "sceneId": "home",
       "sceneName": "家庭",
       "description": "张师傅的家，客厅茶几上杂乱地放着一些物品。",
-      "imageUrl": "/assets/images/scenes/lung_home.jpg",
+      "imageUrl": "/assets/images/scenes/lung_home.webp",
       "hotspots": [
         {
           "hotspotId": "hotspot_1",
@@ -48,7 +48,7 @@
       "sceneId": "taxi",
       "sceneName": "出租车内",
       "description": "张师傅的出租车，车内环境拥挤，空气不流通。",
-      "imageUrl": "/assets/images/scenes/lung_taxi.jpg",
+      "imageUrl": "/assets/images/scenes/lung_taxi.webp",
       "hotspots": [
         {
           "hotspotId": "hotspot_3",
@@ -67,7 +67,7 @@
       "sceneId": "hospital",
       "sceneName": "医院",
       "description": "医院门诊，张师傅正在咨询医生。",
-      "imageUrl": "/assets/images/scenes/lung_hospital.jpg",
+      "imageUrl": "/assets/images/scenes/lung_hospital.webp",
       "hotspots": [
         {
           "hotspotId": "hotspot_4",

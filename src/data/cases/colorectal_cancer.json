@@ -12,14 +12,14 @@
     "occupation": "办公室职员",
     "symptoms": ["便血", "排便习惯改变", "腹部隐痛"],
     "background": "52岁女性，办公室职员，长期久坐，偏爱高脂肪饮食，有便秘史。近3个月出现便血，自认为是痔疮。",
-    "portrait": "/assets/images/characters/colorectal_clerk.jpg"
+    "portrait": "/assets/images/characters/colorectal_clerk.webp"
   },
   "scenes": [
     {
       "sceneId": "office",
       "sceneName": "办公室",
       "description": "李女士的办公隔间，久坐的工作环境。",
-      "imageUrl": "/assets/images/scenes/colon_office.jpg",
+      "imageUrl": "/assets/images/scenes/colon_office.webp",
       "hotspots": [
         {
           "hotspotId": "hotspot_c1",
@@ -38,7 +38,7 @@
       "sceneId": "home",
       "sceneName": "家里",
       "description": "李女士的家，冰箱和厨房可见。",
-      "imageUrl": "/assets/images/scenes/colon_home.jpg",
+      "imageUrl": "/assets/images/scenes/colon_home.webp",
       "hotspots": [
         {
           "hotspotId": "hotspot_c2",
