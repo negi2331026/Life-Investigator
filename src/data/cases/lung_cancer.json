@@ -12,7 +12,7 @@
     "occupation": "出租车司机",
     "symptoms": ["持续咳嗽", "偶有胸闷"],
     "background": "45岁男性，出租车司机，有20年吸烟史，每天约1包烟。最近3个月持续咳嗽，起初以为是感冒，但症状未缓解。",
-    "portrait": "/assets/images/characters/lung_driver.webp"
+    "portrait": "/assets/images/characters/lung_driver.jpg"
   },
   "scenes": [
     {

@@ -12,7 +12,7 @@
     "occupation": "企业管理者",
     "symptoms": ["上腹隐痛", "饭后腹胀", "偶尔反酸"],
     "background": "50岁男性，企业管理者，长期应酬饮酒，饮食不规律。近半年频繁胃部不适，自服胃药缓解。",
-    "portrait": "/assets/images/characters/stomach_manager.webp"
+    "portrait": "/assets/images/characters/stomach_manager.jpg"
   },
   "scenes": [
     {

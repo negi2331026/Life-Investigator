@@ -12,7 +12,7 @@
     "occupation": "办公室职员",
     "symptoms": ["便血", "排便习惯改变", "腹部隐痛"],
     "background": "52岁女性，办公室职员，长期久坐，偏爱高脂肪饮食，有便秘史。近3个月出现便血，自认为是痔疮。",
-    "portrait": "/assets/images/characters/colorectal_clerk.webp"
+    "portrait": "/assets/images/characters/colorectal_clerk.jpg"
   },
   "scenes": [
     {
