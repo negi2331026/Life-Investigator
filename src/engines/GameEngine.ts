@@ -564,7 +564,7 @@ export class GameEngine {
       matchedEndingDescription: ending?.description
     }
 
-    return this.state.rating
+    return this.state.rating!
   }
 
   // 重置游戏

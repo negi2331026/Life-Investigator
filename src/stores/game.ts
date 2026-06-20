@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { GameState, InvestigationFile, RatingDetails } from '@/types/game'
+import { GameRating, type GameState, type InvestigationFile, type RatingDetails } from '@/types/game'
 import type { CaseData, DecisionOption } from '@/types/case'
 import { GameEngine } from '@/engines/GameEngine'
 
@@ -83,7 +83,7 @@ export const useGameStore = defineStore('game', () => {
   const calculateRating = (): RatingDetails => {
     if (!gameEngine || !gameState.value) {
       return {
-        rating: 'D',
+        rating: GameRating.D,
         score: 0,
         clueDiscoveryRate: 0,
         resourceUtilization: 0,

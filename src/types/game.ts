@@ -35,7 +35,7 @@ export interface GameState {
   timeEvents: TimelineEvent[];         // 时间轴事件
   isEndingTriggered: boolean;
   endingType: EndingType | null;
-  rating: GameRating | null;          // 调查评级
+  rating: RatingDetails | null;       // 调查评级
   nextDecisionId?: string;            // 由 lifeEvent 触发锁定的下一个决策
   optionNextDecisionId?: string;     // 由决策选项直接锁定的下一阶段（空字符串=结局）
   lastOptionId?: string;             // 最近一次选择的决策选项（用于分支过滤）
