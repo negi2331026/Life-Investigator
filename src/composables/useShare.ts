@@ -128,17 +128,7 @@ export function useShare() {
 
   // 生成分享链接
   function generateShareLink(data: ShareData): string {
-    const params = new URLSearchParams()
-    params.set('case', data.caseName)
-    params.set('rating', data.rating)
-    params.set('title', getTitle(data.rating))
-    params.set('score', String(data.score))
-    params.set('ending', data.endingTitle)
-    if (data.endingDescription) {
-      params.set('desc', data.endingDescription.slice(0, 200))
-    }
-    const url = `https://life-investigator-7thu.vercel.app/share?${params.toString()}`
-    return url
+    return 'https://life-investigator-7thu.vercel.app/'
   }
 
   // 复制文本到剪贴板（三级降级：Clipboard API → execCommand → 手动选择）

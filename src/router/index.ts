@@ -7,7 +7,6 @@ import DecisionPage from '@/pages/DecisionPage.vue'
 import EndingPage from '@/pages/EndingPage.vue'
 import ReviewPage from '@/pages/ReviewPage.vue'
 import HotspotEditor from '@/pages/HotspotEditor.vue'
-import SharePage from '@/pages/SharePage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -60,11 +59,6 @@ const router = createRouter({
       path: '/editor',
       name: 'editor',
       component: HotspotEditor
-    },
-    {
-      path: '/share',
-      name: 'share',
-      component: SharePage
     }
   ]
 })
