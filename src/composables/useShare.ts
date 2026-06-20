@@ -134,6 +134,9 @@ export function useShare() {
     params.set('title', getTitle(data.rating))
     params.set('score', String(data.score))
     params.set('ending', data.endingTitle)
+    if (data.endingDescription) {
+      params.set('desc', data.endingDescription.slice(0, 200))
+    }
     const url = `https://life-investigator-7thu.vercel.app/share?${params.toString()}`
     return url
   }
