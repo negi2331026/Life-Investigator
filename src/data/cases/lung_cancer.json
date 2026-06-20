@@ -1,0 +1,680 @@
+{
+  "caseId": "lung_cancer_001",
+  "caseName": "出租车司机的咳嗽",
+  "cancerType": "lung",
+  "difficulty": "easy",
+  "icon": "🫁",
+  "tags": ["吸烟危害", "CT检查"],
+  "character": {
+    "name": "张师傅",
+    "age": 45,
+    "gender": "male",
+    "occupation": "出租车司机",
+    "symptoms": ["持续咳嗽", "偶有胸闷"],
+    "background": "45岁男性，出租车司机，有20年吸烟史，每天约1包烟。最近3个月持续咳嗽，起初以为是感冒，但症状未缓解。",
+    "portrait": "/assets/images/characters/lung_driver.jpg"
+  },
+  "scenes": [
+    {
+      "sceneId": "home",
+      "sceneName": "家庭",
+      "description": "张师傅的家，客厅茶几上杂乱地放着一些物品。",
+      "imageUrl": "/assets/images/scenes/lung_home.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_1",
+          "x": 40,
+          "y": 72,
+          "width": 18,
+          "height": 12,
+          "clueId": "clue_smoking",
+          "tooltip": "茶几上散落的烟盒",
+          "isHidden": false
+        },
+        {
+          "hotspotId": "hotspot_2",
+          "x": 37,
+          "y": 14,
+          "width": 12,
+          "height": 16,
+          "clueId": "clue_cough_record",
+          "tooltip": "墙上的日历有标记",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    },
+    {
+      "sceneId": "taxi",
+      "sceneName": "出租车内",
+      "description": "张师傅的出租车，车内环境拥挤，空气不流通。",
+      "imageUrl": "/assets/images/scenes/lung_taxi.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_3",
+          "x": 48,
+          "y": 34,
+          "width": 20,
+          "height": 15,
+          "clueId": "clue_air_pollution",
+          "tooltip": "车内浑浊的空气",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    },
+    {
+      "sceneId": "hospital",
+      "sceneName": "医院",
+      "description": "医院门诊，张师傅正在咨询医生。",
+      "imageUrl": "/assets/images/scenes/lung_hospital.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_4",
+          "x": 40,
+          "y": 55,
+          "width": 18,
+          "height": 12,
+          "clueId": "clue_never_checkup",
+          "tooltip": "桌上的病历本",
+          "isHidden": true
+        }
+      ],
+      "isLocked": true,
+      "unlockCondition": "发现3个线索后解锁"
+    }
+  ],
+  "clues": [
+    {
+      "clueId": "clue_smoking",
+      "name": "吸烟史",
+      "type": "normal",
+      "description": "茶几上散落着多个烟盒，显示张师傅有长期吸烟习惯。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "生活习惯",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_cough_record",
+      "name": "长期咳嗽",
+      "type": "normal",
+      "description": "日历上标记着'咳嗽第90天'，说明咳嗽已持续3个月。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_weight_loss",
+      "name": "体重下降",
+      "type": "key",
+      "description": "裤腰明显变松，近几个月体重下降了约5公斤。",
+      "discoveryMethod": "auto",
+      "prerequisites": ["clue_cough_record"],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_air_pollution",
+      "name": "车内空气污染",
+      "type": "normal",
+      "description": "车内空气浑浊，长期在这样的环境中工作可能危害呼吸系统。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "环境因素",
+      "isKeyClue": false
+    },
+    {
+      "clueId": "clue_never_checkup",
+      "name": "从未体检",
+      "type": "hidden",
+      "description": "病历本显示张师傅从未进行过正规体检。",
+      "discoveryMethod": "cost",
+      "prerequisites": ["clue_smoking", "clue_cough_record"],
+      "cost": 2,
+      "category": "医疗史",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_ct_result",
+      "name": "CT检查结果",
+      "type": "key",
+      "description": "低剂量CT检查已安排，等待影像学报告结果。",
+      "discoveryMethod": "decision",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "检查结果",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_nodule_found",
+      "name": "肺部结节",
+      "type": "key",
+      "description": "CT影像检查已安排，将通过专科进一步确认肺结节的性质。",
+      "discoveryMethod": "decision",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "检查结果",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_hemoptysis",
+      "name": "血痰",
+      "type": "key",
+      "description": "患者近期出现痰中带血的情况，属于肺部疾病的警示信号，病情已不容忽视。",
+      "discoveryMethod": "auto",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    }
+  ],
+  "decisionPoints": [
+    {
+      "decisionId": "decision_1",
+      "triggerCondition": "张师傅的持续咳嗽引起了你的注意。结合他20年的吸烟史，你决定下一步如何行动？",
+      "triggerAge": 45,
+      "options": [
+        {
+          "optionId": "opt_1_1",
+          "text": "开止咳药，建议继续观察",
+          "consequence": "开了些止咳化痰的药，嘱咐多休息、多喝水。没有安排进一步检查。",
+          "healthImpact": -3,
+          "resourceCost": 1,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 47,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "flags": { "missedEarlyScreening": true }
+        },
+        {
+          "optionId": "opt_1_2",
+          "text": "建议做低剂量CT检查",
+          "consequence": "开具了低剂量CT检查单，建议尽快完成筛查。这是一个关键的早期筛查手段。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "nextSceneId": "",
+          "unlocksClue": "clue_ct_result",
+          "advancesTime": true,
+          "timeAdvanceTo": 46,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "flags": { "ctScreeningDone": true }
+        },
+        {
+          "optionId": "opt_1_3",
+          "text": "转诊呼吸专科门诊",
+          "consequence": "开具了呼吸专科的转诊单，让专科医生进一步评估。",
+          "healthImpact": 3,
+          "resourceCost": 2,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 46,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "flags": { "referralOnly": true }
+        }
+      ],
+      "nextLifeEvent": "",
+      "timeAdvanceTo": 47
+    },
+    {
+      "decisionId": "decision_ct",
+      "triggerCondition": "CT报告显示右肺上叶有可疑结节（约1cm）。幸好通过早期CT筛查及时发现了！现在需要决定下一步处理方案。",
+      "triggerAge": 46,
+      "options": [
+        {
+          "optionId": "opt_ct_1",
+          "text": "安排肺活检并评估手术切除",
+          "consequence": "转诊胸外科，安排穿刺活检确认病变性质，同时评估微创手术切除的可行性。积极治疗，预后良好。",
+          "healthImpact": 8,
+          "resourceCost": 5,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 47,
+          "healthStageChange": "EARLY_CANCER",
+          "nextDecisionId": "",
+          "flags": { "activeTreatment": true }
+        },
+        {
+          "optionId": "opt_ct_2",
+          "text": "定期随访观察，3个月后复查CT",
+          "consequence": "结节较小，暂时采取定期随访策略。嘱咐戒烟，3个月后再做一次CT对比。",
+          "healthImpact": 4,
+          "resourceCost": 2,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 48,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "nextDecisionId": ""
+        },
+        {
+          "optionId": "opt_ct_3",
+          "text": "暂时不开药，建议继续观察",
+          "consequence": "认为结节可能是良性的，建议先观察一段时间再做决定。",
+          "healthImpact": -2,
+          "resourceCost": 0,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 49,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "nextDecisionId": "",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "nextLifeEvent": "",
+      "timeAdvanceTo": 48
+    },
+    {
+      "decisionId": "decision_referral",
+      "triggerCondition": "呼吸专科医生接诊后，进行了初步问诊和听诊。考虑到长期吸烟史和持续咳嗽，专科医生提出了几个建议。",
+      "triggerAge": 46,
+      "options": [
+        {
+          "optionId": "opt_ref_1",
+          "text": "听从专科医生建议，做低剂量CT",
+          "consequence": "专科医生强烈建议做CT筛查，你认为这是合理的选择。CT检查立即安排。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "nextSceneId": "",
+          "unlocksClue": "clue_nodule_found",
+          "advancesTime": true,
+          "timeAdvanceTo": 47,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "flags": { "ctScreeningDone": true }
+        },
+        {
+          "optionId": "opt_ref_2",
+          "text": "继续在专科门诊随访观察",
+          "consequence": "选择定期在呼吸科门诊随访，监测症状变化，暂不安排影像学检查。",
+          "healthImpact": 2,
+          "resourceCost": 2,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 48,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS"
+        },
+        {
+          "optionId": "opt_ref_3",
+          "text": "开药缓解症状，暂缓检查",
+          "consequence": "开具了止咳化痰和平喘药物，嘱咐注意休息，暂不考虑进一步检查。",
+          "healthImpact": -2,
+          "resourceCost": 1,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 50,
+          "healthStageChange": "SUSPICIOUS_SYMPTOMS",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "nextLifeEvent": "",
+      "timeAdvanceTo": 48
+    },
+    {
+      "decisionId": "decision_delay",
+      "triggerCondition": "几个月过去了，张师傅的咳嗽不仅没有好转，反而加重了——体重明显下降，甚至出现了痰中带血。情况已经不容乐观。",
+      "triggerAge": 47,
+      "options": [
+        {
+          "optionId": "opt_delay_1",
+          "text": "立即安排住院，进行紧急CT和全面检查",
+          "consequence": "紧急办理住院手续，安排低剂量CT和血液检查。虽然有所耽搁，但立即行动仍有希望控制病情。",
+          "healthImpact": 4,
+          "resourceCost": 5,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 48,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "ctScreeningDone": true }
+        },
+        {
+          "optionId": "opt_delay_2",
+          "text": "转诊专科医院进行多学科会诊",
+          "consequence": "联系专科医院进行多学科会诊。虽然已经延误了最佳时机，但多学科协作仍有治疗机会。",
+          "healthImpact": 1,
+          "resourceCost": 3,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 50,
+          "healthStageChange": "MID_CANCER"
+        },
+        {
+          "optionId": "opt_delay_3",
+          "text": "开止血药，继续观察",
+          "consequence": "开了止血药物和止咳药，建议再观察一段时间。一次次延误让病情持续加重。",
+          "healthImpact": -5,
+          "resourceCost": 1,
+          "nextSceneId": "",
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "severeDelay": true }
+        }
+      ],
+      "timeAdvanceTo": 53
+    }
+  ],
+  "lifeEvents": [
+    {
+      "eventId": "event_ct_finding",
+      "triggerAge": 46,
+      "eventType": "checkup_result",
+      "description": "低剂量CT检查结果出来了——右肺上叶发现一个约1cm的可疑结节。万幸的是，由于及时做了CT筛查，发现尚在早期阶段，治疗效果预期良好。",
+      "healthStage": "SUSPICIOUS_SYMPTOMS",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_ct",
+      "requiredOptionId": "opt_1_2",
+      "flags": { "noduleFound": true }
+    },
+    {
+      "eventId": "event_referral_visit",
+      "triggerAge": 46,
+      "eventType": "checkup_result",
+      "description": "呼吸专科门诊接诊后，专科医生详细询问了病史，并做了初步检查。医生还需要更多信息来做出判断。",
+      "healthStage": "SUSPICIOUS_SYMPTOMS",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_referral",
+      "requiredOptionId": "opt_1_3"
+    },
+    {
+      "eventId": "event_ref_ct_finding",
+      "triggerAge": 47,
+      "eventType": "checkup_result",
+      "description": "低剂量CT检查结果出来了——右肺上叶发现一个约1cm的可疑结节。虽然通过转诊路径多花了一些时间，但CT筛查仍然及时发现了问题，处于可干预阶段。",
+      "healthStage": "SUSPICIOUS_SYMPTOMS",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_ct",
+      "requiredOptionId": "opt_ref_1",
+      "flags": { "noduleFound": true }
+    },
+    {
+      "eventId": "event_referral_delay",
+      "triggerAge": 48,
+      "eventType": "symptom_worsen",
+      "description": "几个月过去了，张师傅在专科门诊随访但没有做CT。咳嗽越来越严重，痰中出现了血丝。这是明确需要立即检查的警示信号！",
+      "healthStage": "PROGRESSIVE_DISEASE",
+      "autoDiscoveryClues": ["clue_weight_loss", "clue_hemoptysis"],
+      "triggerDecision": "decision_delay",
+      "requiredOptionId": "opt_ref_2",
+      "flags": { "hemoptysisOccurred": true }
+    },
+    {
+      "eventId": "event_ref3_delay",
+      "triggerAge": 49,
+      "eventType": "symptom_worsen",
+      "description": "一直在开药缓解症状却没有做检查。咳嗽加剧，痰中带血丝，体重持续下降。再不检查就来不及了！",
+      "healthStage": "PROGRESSIVE_DISEASE",
+      "autoDiscoveryClues": ["clue_weight_loss", "clue_hemoptysis"],
+      "triggerDecision": "decision_delay",
+      "requiredOptionId": "opt_ref_3",
+      "flags": { "hemoptysisOccurred": true }
+    },
+    {
+      "eventId": "event_weight_loss",
+      "triggerAge": 47,
+      "eventType": "symptom_worsen",
+      "description": "几个月过去了，张师傅的咳嗽不仅没有好转，体重也下降了近5公斤，裤腰明显变松。更令人担忧的是，痰中出现了血丝。",
+      "healthStage": "PROGRESSIVE_DISEASE",
+      "autoDiscoveryClues": ["clue_weight_loss", "clue_hemoptysis"],
+      "triggerDecision": "decision_delay",
+      "requiredOptionId": "opt_1_1",
+      "flags": { "hemoptysisOccurred": true }
+    },
+    {
+      "eventId": "event_delay_ct_finding",
+      "triggerAge": 48,
+      "eventType": "checkup_result",
+      "description": "紧急CT检查结果出来了——右肺上叶的可疑结节已经明显增大，并且出现了咳血症状。虽然有所延误，但CT检查仍为后续治疗提供了关键依据。现在需要决定下一步治疗方案。",
+      "healthStage": "MID_CANCER",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_ct",
+      "requiredOptionId": "opt_delay_1",
+      "flags": { "noduleFound": true }
+    }
+  ],
+  "endings": [
+    {
+      "endingId": "ending_prevention",
+      "type": "prevention",
+      "title": "成功预防",
+      "description": "通过早期CT筛查发现肺部结节，结合定期随访和戒烟干预，成功将肺癌风险控制在萌芽阶段。张师傅至今健康状况良好，定期复查结果稳定。这是一次教科书级的癌症预防案例！",
+      "condition": {
+        "minAge": 45,
+        "maxAge": 48,
+        "healthStage": ["SUSPICIOUS_SYMPTOMS", "PROGRESSIVE_DISEASE", "EARLY_CANCER"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_ct_2"],
+        "requiredMilestones": {
+          "ctScreeningDone": true,
+          "hemoptysisOccurred": false,
+          "missedEarlyScreening": false,
+          "severeDelay": false,
+          "activeTreatment": false
+        }
+      },
+      "ratingRange": ["S", "A"]
+    },
+    {
+      "endingId": "ending_early",
+      "type": "early_detection",
+      "title": "早期发现并治愈",
+      "description": "通过及时的检查手段，在肺癌尚处于早期阶段时发现了病变。经过积极治疗，张师傅顺利康复，预后良好。定期随访显示无复发迹象。早期发现是战胜癌症的关键！",
+      "condition": {
+        "minAge": 46,
+        "maxAge": 50,
+        "healthStage": ["SUSPICIOUS_SYMPTOMS", "PROGRESSIVE_DISEASE", "EARLY_CANCER"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_ct_1", "opt_ref_1"],
+        "requiredMilestones": {
+          "ctScreeningDone": true,
+          "hemoptysisOccurred": false,
+          "missedEarlyScreening": false,
+          "severeDelay": false
+        }
+      },
+      "ratingRange": ["A", "B"]
+    },
+    {
+      "endingId": "ending_mid",
+      "type": "mid_detection",
+      "title": "中期发现并控制",
+      "description": "由于在决策过程中存在一定的延误或保守处理，当最终确诊时肺癌已有所进展。虽仍可治疗，但治疗方案更复杂，预后不如早期发现那么理想。如果能更早重视那些预警信号就好了。",
+      "condition": {
+        "minAge": 47,
+        "maxAge": 55,
+        "healthStage": ["SUSPICIOUS_SYMPTOMS", "PROGRESSIVE_DISEASE", "EARLY_CANCER", "MID_CANCER"],
+        "decisionMade": ["opt_ct_3", "opt_ref_2", "opt_ref_3", "opt_delay_1", "opt_delay_2"],
+        "requiredMilestones": {
+          "hemoptysisOccurred": true,
+          "severeDelay": false
+        }
+      },
+      "ratingRange": ["B", "C"]
+    },
+    {
+      "endingId": "ending_late",
+      "type": "late_detection",
+      "title": "严重延误",
+      "description": "由于反复拖延和对症状的忽视，肺癌已经发展到了相当严重的阶段。治疗难度大大增加，预后不容乐观。每一次「再观察一下」都让病情多走了一步。早筛查、早发现真的能救命。",
+      "condition": {
+        "minAge": 50,
+        "maxAge": 60,
+        "healthStage": ["MID_CANCER", "ADVANCED_CANCER"],
+        "decisionMade": ["opt_delay_3"],
+        "requiredMilestones": {
+          "hemoptysisOccurred": true,
+          "severeDelay": true
+        }
+      },
+      "ratingRange": ["C", "D"]
+    }
+  ],
+  "bestRoute": {
+    "route": [
+      {
+        "age": 45,
+        "action": "完成场景调查：发现吸烟史（≥20年、每日1包）、持续咳嗽3个月、车内空气污染、从未体检",
+        "description": "收集4条线索，明确危险因素。长期吸烟伴持续咳嗽，是重要高危信号。"
+      },
+      {
+        "age": 45,
+        "action": "立即安排低剂量CT检查（LDCT）",
+        "description": "该患者符合肺癌高危标准，指南建议高危人群每年行LDCT筛查。应尽早检查，勿用止咳药拖延或单纯转诊。"
+      },
+      {
+        "age": 46,
+        "action": "CT发现右肺上叶1cm可疑结节——处于可切除阶段",
+        "description": "CT发现早期肺结节，未侵犯周围组织，此时干预5年生存率超80%。"
+      },
+      {
+        "age": 46,
+        "action": "立即安排穿刺活检，评估微创手术切除",
+        "description": "及时活检明确性质，早期肺癌微创手术治愈率高，术后多无需放化疗。"
+      },
+      {
+        "age": 47,
+        "action": "术后定期复查，强制戒烟，健康状况稳定",
+        "description": "每半年复查CT，2年无复发，戒烟后肺功能改善。若早期拖延，易进展为咯血晚期。"
+      }
+    ],
+    "keyDecisionPoints": ["decision_1", "decision_ct"],
+    "milestones": [
+      {
+        "flagKey": "ctScreeningDone",
+        "label": "CT筛查完成",
+        "positive": true,
+        "triggeredText": "已完成低剂量CT影像筛查，这是肺癌早筛的关键一步",
+        "notTriggeredText": "未进行CT筛查，错失早期发现机会"
+      },
+      {
+        "flagKey": "noduleFound",
+        "label": "肺部结节发现",
+        "positive": true,
+        "triggeredText": "影像学检查发现了肺部结节，得以在早期阶段明确性质并干预",
+        "notTriggeredText": "未通过影像学发现结节"
+      },
+      {
+        "flagKey": "activeTreatment",
+        "label": "积极治疗干预",
+        "positive": true,
+        "triggeredText": "采取了活检/手术等积极干预措施，是战胜疾病的关键一步",
+        "notTriggeredText": "未采取积极的治疗干预"
+      },
+      {
+        "flagKey": "hemoptysisOccurred",
+        "label": "咳血出现",
+        "positive": false,
+        "triggeredText": "痰中带血是肺部疾病的严重警示信号，提示疾病已明显进展",
+        "notTriggeredText": "未出现咳血，疾病尚未进展到严重阶段"
+      },
+      {
+        "flagKey": "missedEarlyScreening",
+        "label": "错过早期筛查窗口",
+        "positive": false,
+        "triggeredText": "在首次症状出现时选择了观察而非筛查，错过了最佳干预时机",
+        "notTriggeredText": "抓住了早期筛查窗口，没有延误诊断"
+      },
+      {
+        "flagKey": "severeDelay",
+        "label": "严重延误",
+        "positive": false,
+        "triggeredText": "咳血后仍选择保守观察，疾病持续进展至较晚阶段",
+        "notTriggeredText": "出现警示信号后及时采取了行动"
+      }
+    ],
+    "knowledgePoints": [
+      {
+        "pointId": "kp_1",
+        "age": 45,
+        "content": "长期吸烟（≥20年、每日≥1包）是肺癌最重要的危险因素，风险比不吸烟者高10-20倍。",
+        "relatedClue": "clue_smoking",
+        "category": "危险因素"
+      },
+      {
+        "pointId": "kp_2",
+        "age": 45,
+        "content": "持续咳嗽超过2-3周且无缓解，尤其伴随吸烟史，应警惕肺部病变，不应简单当作「感冒」或「慢性支气管炎」。",
+        "relatedClue": "clue_cough_record",
+        "category": "预警信号"
+      },
+      {
+        "pointId": "kp_3",
+        "age": 45,
+        "content": "中国肺癌筛查指南推荐：45岁以上高危人群（长期吸烟者）每年进行一次低剂量CT（LDCT）筛查，可降低肺癌死亡率约20%。",
+        "relatedClue": "clue_ct_result",
+        "category": "筛查方法"
+      },
+      {
+        "pointId": "kp_4",
+        "age": 46,
+        "content": "CT发现的1cm以下肺结节，若为恶性，通常处于I期，手术切除后5年生存率可达80%-90%。",
+        "relatedClue": "clue_ct_result",
+        "category": "治疗预后"
+      },
+      {
+        "pointId": "kp_5",
+        "age": 46,
+        "content": "咳血（痰中带血）是肺部疾病的严重警示信号，出现此症状往往意味着病变已进展至较晚阶段，不再是早期。",
+        "relatedClue": "clue_hemoptysis",
+        "category": "警示信号"
+      },
+      {
+        "pointId": "kp_6",
+        "age": 47,
+        "content": "戒烟可以显著降低肺癌风险——戒烟10年后，肺癌风险可降至吸烟者的一半。任何时候开始戒烟都不晚。",
+        "relatedClue": "clue_smoking",
+        "category": "预防方法"
+      }
+    ]
+  },
+  "ratingCriteria": {
+    "S": {
+      "minClueDiscoveryRate": 0.8,
+      "maxResourceUsed": 0.7,
+      "keyClueRequired": true,
+      "maxDiseaseStage": "EARLY_CANCER",
+      "endingTypes": ["prevention", "early_detection"]
+    },
+    "A": {
+      "minClueDiscoveryRate": 0.6,
+      "maxResourceUsed": 0.8,
+      "keyClueRequired": true,
+      "maxDiseaseStage": "PROGRESSIVE_DISEASE",
+      "endingTypes": ["prevention", "early_detection"]
+    },
+    "B": {
+      "minClueDiscoveryRate": 0.4,
+      "maxResourceUsed": 0.9,
+      "keyClueRequired": false,
+      "maxDiseaseStage": "EARLY_CANCER",
+      "endingTypes": ["early_detection", "mid_detection"]
+    },
+    "C": {
+      "minClueDiscoveryRate": 0.2,
+      "maxResourceUsed": 1.0,
+      "keyClueRequired": false,
+      "maxDiseaseStage": "MID_CANCER",
+      "endingTypes": ["mid_detection", "late_detection"]
+    },
+    "D": {
+      "minClueDiscoveryRate": 0.0,
+      "maxResourceUsed": 1.0,
+      "keyClueRequired": false,
+      "maxDiseaseStage": "ADVANCED_CANCER",
+      "endingTypes": ["late_detection", "investigation_failed"]
+    }
+  }
+}

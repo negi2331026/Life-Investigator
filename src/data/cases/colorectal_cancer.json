@@ -1,0 +1,552 @@
+{
+  "caseId": "colorectal_cancer_001",
+  "caseName": "职员的便血",
+  "cancerType": "colorectal",
+  "difficulty": "hard",
+  "icon": "🏢",
+  "tags": ["肠镜筛查", "健康饮食"],
+  "character": {
+    "name": "李女士",
+    "age": 52,
+    "gender": "female",
+    "occupation": "办公室职员",
+    "symptoms": ["便血", "排便习惯改变", "腹部隐痛"],
+    "background": "52岁女性，办公室职员，长期久坐，偏爱高脂肪饮食，有便秘史。近3个月出现便血，自认为是痔疮。",
+    "portrait": "/assets/images/characters/colorectal_clerk.jpg"
+  },
+  "scenes": [
+    {
+      "sceneId": "office",
+      "sceneName": "办公室",
+      "description": "李女士的办公隔间，久坐的工作环境。",
+      "imageUrl": "/assets/images/scenes/colon_office.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_c1",
+          "x": 35,
+          "y": 55,
+          "width": 15,
+          "height": 10,
+          "clueId": "clue_sedentary",
+          "tooltip": "长时间久坐的办公桌",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    },
+    {
+      "sceneId": "home",
+      "sceneName": "家里",
+      "description": "李女士的家，冰箱和厨房可见。",
+      "imageUrl": "/assets/images/scenes/colon_home.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_c2",
+          "x": 40,
+          "y": 46,
+          "width": 15,
+          "height": 12,
+          "clueId": "clue_fat_diet",
+          "tooltip": "冰箱里的加工食品",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    }
+  ],
+  "clues": [
+    {
+      "clueId": "clue_sedentary",
+      "name": "长期久坐",
+      "type": "normal",
+      "description": "每天坐办公室超过10小时，很少起来活动。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "生活习惯",
+      "isKeyClue": false
+    },
+    {
+      "clueId": "clue_fat_diet",
+      "name": "高脂肪饮食",
+      "type": "normal",
+      "description": "冰箱里存放着大量加工肉制品和高脂食物。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "饮食习惯",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_blood_stool",
+      "name": "便血症状",
+      "type": "key",
+      "description": "近3个月反复出现便血，自行购买痔疮药。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_anemia",
+      "name": "贫血症状",
+      "type": "key",
+      "description": "近期出现头晕乏力，血常规提示轻度贫血，可能与长期便血有关。",
+      "discoveryMethod": "auto",
+      "prerequisites": ["clue_blood_stool"],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_colonoscopy_result",
+      "name": "肠镜检查结果",
+      "type": "key",
+      "description": "肠镜检查已安排，等待内镜报告。",
+      "discoveryMethod": "decision",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "检查结果",
+      "isKeyClue": true
+    }
+  ],
+  "decisionPoints": [
+    {
+      "decisionId": "decision_c1",
+      "triggerCondition": "李女士的便血症状已持续3个月，且有高脂肪饮食习惯。你打算如何应对？",
+      "triggerAge": 52,
+      "options": [
+        {
+          "optionId": "opt_c1_1",
+          "text": "自行使用痔疮药，继续观察",
+          "consequence": "开了痔疮药膏，嘱咐注意饮食和休息。没有安排进一步检查。",
+          "healthImpact": -3,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 54,
+          "healthStageChange": "HIGH_RISK",
+          "flags": { "missedEarlyScreening": true }
+        },
+        {
+          "optionId": "opt_c1_2",
+          "text": "建议肠镜检查",
+          "consequence": "开具了肠镜检查申请单。肠镜是结直肠癌筛查的金标准。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "unlocksClue": "clue_colonoscopy_result",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "SYMPTOM_APPEAR",
+          "flags": { "colonoscopyDone": true }
+        },
+        {
+          "optionId": "opt_c1_3",
+          "text": "转诊消化内科",
+          "consequence": "开具了消化内科转诊单，由专科医生进一步评估。",
+          "healthImpact": 3,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "SYMPTOM_APPEAR",
+          "flags": { "referralOnly": true }
+        }
+      ],
+      "timeAdvanceTo": 54
+    },
+    {
+      "decisionId": "decision_c_colonoscopy",
+      "triggerCondition": "肠镜报告显示乙状结肠有一个约1.5cm的息肉样病变。幸好通过早期肠镜及时发现！你决定下一步怎么处理？",
+      "triggerAge": 53,
+      "options": [
+        {
+          "optionId": "opt_cc_1",
+          "text": "内镜下切除息肉并送病理活检",
+          "consequence": "安排内镜下息肉切除术，送检病理。这是最积极的处理方式，能够一举两得。",
+          "healthImpact": 8,
+          "resourceCost": 5,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 54,
+          "healthStageChange": "EARLY_CANCER",
+          "nextDecisionId": "",
+          "flags": { "activeTreatment": true }
+        },
+        {
+          "optionId": "opt_cc_2",
+          "text": "定期随访，6个月后复查肠镜",
+          "consequence": "息肉较小，采取定期随访策略。嘱咐调整饮食，增加纤维素摄入。",
+          "healthImpact": 4,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 55,
+          "healthStageChange": "PRECANCEROUS",
+          "nextDecisionId": ""
+        },
+        {
+          "optionId": "opt_cc_3",
+          "text": "暂时不开药，建议继续观察",
+          "consequence": "认为息肉可能是良性的，建议先观察一段时间。",
+          "healthImpact": -2,
+          "resourceCost": 0,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 56,
+          "healthStageChange": "HIGH_RISK",
+          "nextDecisionId": "",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "timeAdvanceTo": 55
+    },
+    {
+      "decisionId": "decision_c_referral",
+      "triggerCondition": "消化内科医生接诊后，详细询问了病史并做了腹部触诊。专科医生提出了几个方案供你选择。",
+      "triggerAge": 53,
+      "options": [
+        {
+          "optionId": "opt_cr_1",
+          "text": "听从专科建议，安排肠镜检查",
+          "consequence": "消化内科医生强烈建议做肠镜，你认为这是正确的选择。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "unlocksClue": "clue_colonoscopy_result",
+          "advancesTime": true,
+          "timeAdvanceTo": 54,
+          "healthStageChange": "PRECANCEROUS",
+          "flags": { "colonoscopyDone": true }
+        },
+        {
+          "optionId": "opt_cr_2",
+          "text": "在消化内科门诊随访观察",
+          "consequence": "选择定期在消化内科门诊随访，监测症状变化。",
+          "healthImpact": 2,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 55,
+          "healthStageChange": "SYMPTOM_APPEAR"
+        },
+        {
+          "optionId": "opt_cr_3",
+          "text": "开药缓解症状，暂缓检查",
+          "consequence": "开具了止血和调节肠道功能的药物，暂不考虑肠镜检查。",
+          "healthImpact": -2,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 56,
+          "healthStageChange": "HIGH_RISK",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "timeAdvanceTo": 55
+    },
+    {
+      "decisionId": "decision_c_delay",
+      "triggerCondition": "便血加重，贫血明显，头晕乏力日益严重，腹部隐痛也更加频繁。情况已经不容乐观。",
+      "triggerAge": 54,
+      "options": [
+        {
+          "optionId": "opt_cd_1",
+          "text": "立即安排肠镜和住院检查",
+          "consequence": "紧急安排了肠镜检查并办理住院。虽然有所耽搁，但立即行动仍有希望控制病情。",
+          "healthImpact": 4,
+          "resourceCost": 5,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 55,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "colonoscopyDone": true }
+        },
+        {
+          "optionId": "opt_cd_2",
+          "text": "转诊专科医院进行多学科会诊",
+          "consequence": "联系专科医院进行多学科会诊。虽然延误了最佳时机，但多学科协作仍能制定治疗方案。",
+          "healthImpact": 1,
+          "resourceCost": 3,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 57,
+          "healthStageChange": "MID_CANCER"
+        },
+        {
+          "optionId": "opt_cd_3",
+          "text": "继续保守治疗，加强补血",
+          "consequence": "加大了补血药剂量，建议注意休息。一次次延误让病情持续加重。",
+          "healthImpact": -5,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 58,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "severeDelay": true }
+        }
+      ],
+      "timeAdvanceTo": 58
+    }
+  ],
+  "lifeEvents": [
+    {
+      "eventId": "event_c_colonoscopy",
+      "triggerAge": 53,
+      "eventType": "checkup_result",
+      "description": "肠镜报告出来了——乙状结肠发现一个约1.5cm的息肉样病变。幸好在早期阶段通过肠镜及时发现，内镜下即可处理。",
+      "healthStage": "SYMPTOM_APPEAR",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_c_colonoscopy",
+      "requiredOptionId": "opt_c1_2",
+      "flags": { "polypFound": true }
+    },
+    {
+      "eventId": "event_c_referral",
+      "triggerAge": 53,
+      "eventType": "checkup_result",
+      "description": "消化内科医生详细了解了便血史和饮食习惯，还需要更多信息来做出准确判断。",
+      "healthStage": "SYMPTOM_APPEAR",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_c_referral",
+      "requiredOptionId": "opt_c1_3"
+    },
+    {
+      "eventId": "event_cr_colonoscopy",
+      "triggerAge": 54,
+      "eventType": "checkup_result",
+      "description": "肠镜报告出来了——乙状结肠发现一个约1.5cm的息肉样病变。虽然通过转诊路径多花了一些时间，但肠镜筛查仍然及时发现了病变，内镜下即可处理。",
+      "healthStage": "PRECANCEROUS",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_c_colonoscopy",
+      "requiredOptionId": "opt_cr_1",
+      "flags": { "polypFound": true }
+    },
+    {
+      "eventId": "event_cr_followup_delay",
+      "triggerAge": 55,
+      "eventType": "symptom_worsen",
+      "description": "选择了在专科门诊定期随访但没有做肠镜。便血症状持续加重，李女士出现了明显贫血——头晕乏力，面色苍白。是时候采取更果断的措施了！",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_anemia"],
+      "triggerDecision": "decision_c_delay",
+      "requiredOptionId": "opt_cr_2",
+      "flags": { "bloodStoolWorsened": true }
+    },
+    {
+      "eventId": "event_cr_med_delay",
+      "triggerAge": 56,
+      "eventType": "symptom_worsen",
+      "description": "一直用药物缓解症状却没有做肠镜检查。便血加重，贫血明显，腹部隐痛更加频繁。再不检查就来不及了！",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_anemia"],
+      "triggerDecision": "decision_c_delay",
+      "requiredOptionId": "opt_cr_3",
+      "flags": { "bloodStoolWorsened": true }
+    },
+    {
+      "eventId": "event_c_delay",
+      "triggerAge": 54,
+      "eventType": "symptom_worsen",
+      "description": "便血症状持续加重，李女士出现了明显贫血——头晕乏力，面色苍白，腹部隐痛也更加频繁。如果再延误下去，后果不堪设想。",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_anemia"],
+      "triggerDecision": "decision_c_delay",
+      "requiredOptionId": "opt_c1_1",
+      "flags": { "bloodStoolWorsened": true }
+    },
+    {
+      "eventId": "event_cd_colonoscopy",
+      "triggerAge": 55,
+      "eventType": "checkup_result",
+      "description": "紧急肠镜检查结果出来了——乙状结肠的病变已经明显进展，贫血情况严重。虽然有所延误，但肠镜检查仍为后续治疗提供了关键依据。现在需要决定下一步治疗方案。",
+      "healthStage": "MID_CANCER",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_c_colonoscopy",
+      "requiredOptionId": "opt_cd_1",
+      "flags": { "polypFound": true }
+    }
+  ],
+  "endings": [
+    {
+      "endingId": "ending_c_prevention",
+      "type": "prevention",
+      "title": "成功预防",
+      "description": "通过早期肠镜检查及时发现息肉并定期随访，成功将结直肠癌风险控制在萌芽阶段。李女士调整了饮食结构，增加了运动量，至今健康状况良好。",
+      "condition": {
+        "minAge": 52,
+        "maxAge": 55,
+        "healthStage": ["SYMPTOM_APPEAR", "PRECANCEROUS"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_cc_2", "opt_cr_1"]
+      },
+      "ratingRange": ["S", "A"]
+    },
+    {
+      "endingId": "ending_c_early",
+      "type": "early_detection",
+      "title": "早期发现",
+      "description": "通过及时的肠镜检查和处理，在结直肠癌尚处于早期阶段时发现了病变。经内镜下治疗后顺利康复，预后良好。肠镜筛查的价值在这里得到了充分体现。",
+      "condition": {
+        "minAge": 53,
+        "maxAge": 56,
+        "healthStage": ["PRECANCEROUS", "EARLY_CANCER"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_cc_1", "opt_cr_1"]
+      },
+      "ratingRange": ["A", "B"]
+    },
+    {
+      "endingId": "ending_c_mid",
+      "type": "mid_detection",
+      "title": "中期发现",
+      "description": "由于在决策过程中存在一定的延误或保守处理，当最终确诊时病变已有所进展。虽然仍可治疗，但预后远不如早期发现。便血是结直肠癌的重要警示信号，不应简单归因于痔疮。",
+      "condition": {
+        "minAge": 54,
+        "maxAge": 57,
+        "healthStage": ["SYMPTOM_APPEAR", "HIGH_RISK", "PRECANCEROUS", "EARLY_CANCER", "MID_CANCER"],
+        "decisionMade": ["opt_cc_3", "opt_cr_2", "opt_cr_3", "opt_cd_1", "opt_cd_2", "opt_cd_3"]
+      },
+      "ratingRange": ["B", "C"]
+    },
+    {
+      "endingId": "ending_c_late",
+      "type": "late_detection",
+      "title": "晚期发现",
+      "description": "由于反复将便血当作痔疮处理，结直肠癌已经发展到了相当严重的阶段。治疗难度大大增加。每一次'再观察一下'都让肿瘤多走了很远。便血真的不能只当痔疮！",
+      "condition": {
+        "minAge": 56,
+        "maxAge": 65,
+        "healthStage": ["MID_CANCER", "LATE_CANCER"],
+        "keyClueFound": false,
+        "decisionMade": []
+      },
+      "ratingRange": ["C", "D"]
+    }
+  ],
+  "bestRoute": {
+    "route": [
+      {
+        "age": 52,
+        "action": "完成场景调查：办公室发现长期久坐，家里发现高脂肪饮食（大量加工肉制品）",
+        "description": "收集相关危险因素，长期久坐、高脂饮食伴便血3个月，不可简单视为痔疮。"
+      },
+      {
+        "age": 52,
+        "action": "立即安排肠镜检查",
+        "description": "患者符合结直肠癌高危标准，指南建议50岁以上人群行肠镜筛查。肠镜为金标准，可观察黏膜并切除息肉，勿用痔疮药延误或单纯转诊。"
+      },
+      {
+        "age": 53,
+        "action": "肠镜发现乙状结肠1.5cm息肉样病变——内镜下即可处理",
+        "description": "肠镜发现早期息肉，结直肠癌多由息肉发展而来，及时切除可有效阻断癌变。"
+      },
+      {
+        "age": 53,
+        "action": "内镜下切除息肉并送病理活检",
+        "description": "及时内镜下切除病灶并送检，可明确性质，避免息肉进展为浸润癌。"
+      },
+      {
+        "age": 54,
+        "action": "病理报告良性，调整饮食结构，增加膳食纤维，定期复查肠镜",
+        "description": "病理为癌前病变，切除后治愈。改善饮食运动习惯，定期复查即可。若初期延误，易进展为严重便血、贫血。尽早筛查，意义重大！"
+      }
+    ],
+    "keyDecisionPoints": ["decision_c1", "decision_c_colonoscopy"],
+    "milestones": [
+      {
+        "flagKey": "colonoscopyDone",
+        "label": "肠镜检查完成",
+        "positive": true,
+        "triggeredText": "已完成肠镜检查，这是结直肠癌筛查的金标准",
+        "notTriggeredText": "未进行肠镜检查，错失早期发现息肉的机会"
+      },
+      {
+        "flagKey": "polypFound",
+        "label": "息肉病变发现",
+        "positive": true,
+        "triggeredText": "肠镜检查发现了息肉样病变，得以在癌前阶段切除并阻断癌变",
+        "notTriggeredText": "未通过肠镜发现息肉"
+      },
+      {
+        "flagKey": "activeTreatment",
+        "label": "内镜下治疗干预",
+        "positive": true,
+        "triggeredText": "采取了内镜下切除等积极干预措施，在癌前阶段就阻断了病变进展",
+        "notTriggeredText": "未采取积极的治疗干预"
+      },
+      {
+        "flagKey": "bloodStoolWorsened",
+        "label": "便血加重",
+        "positive": false,
+        "triggeredText": "便血持续加重并出现贫血，提示病变已明显进展，不再是早期阶段",
+        "notTriggeredText": "未出现便血加重，疾病尚未进展到严重阶段"
+      },
+      {
+        "flagKey": "missedEarlyScreening",
+        "label": "错过早期筛查窗口",
+        "positive": false,
+        "triggeredText": "在便血初期选择了痔疮药观察，将危险信号错误归因，错过了最佳干预时机",
+        "notTriggeredText": "抓住了早期筛查窗口，没有将便血简单当作痔疮"
+      },
+      {
+        "flagKey": "severeDelay",
+        "label": "严重延误",
+        "positive": false,
+        "triggeredText": "便血加重后仍选择保守治疗，一次次延误让息肉有机会进展为浸润癌",
+        "notTriggeredText": "出现严重警示信号后及时采取了行动"
+      }
+    ],
+    "knowledgePoints": [
+      {
+        "pointId": "kp_c1",
+        "age": 52,
+        "content": "高脂肪饮食、红肉摄入过多和久坐不动是结直肠癌的重要危险因素。",
+        "relatedClue": "clue_fat_diet",
+        "category": "危险因素"
+      },
+      {
+        "pointId": "kp_c2",
+        "age": 52,
+        "content": "中国结直肠癌筛查指南推荐50-75岁人群至少做一次肠镜检查。肠镜能直接观察肠道黏膜，发现并切除癌前息肉。",
+        "relatedClue": "",
+        "category": "筛查方法"
+      },
+      {
+        "pointId": "kp_c3",
+        "age": 52,
+        "content": "反复便血超过2周，尤其是50岁以上人群，绝不能简单归结为痔疮，应及时做肠镜排除肿瘤。",
+        "relatedClue": "clue_blood_stool",
+        "category": "症状识别"
+      },
+      {
+        "pointId": "kp_c4",
+        "age": 53,
+        "content": "绝大多数结直肠癌由腺瘤性息肉演变而来，这一过程通常需要5-10年。肠镜下切除息肉可以有效阻断癌变，是最有效的预防手段。",
+        "relatedClue": "",
+        "category": "治疗预后"
+      },
+      {
+        "pointId": "kp_c5",
+        "age": 53,
+        "content": "长期便血导致的贫血（面色苍白、头晕乏力）是结直肠癌的常见伴随表现，出现这些症状时病情可能已不是早期。",
+        "relatedClue": "clue_anemia",
+        "category": "警示信号"
+      },
+      {
+        "pointId": "kp_c6",
+        "age": 54,
+        "content": "增加膳食纤维摄入、减少红肉和加工肉制品、保持规律运动，可以显著降低结直肠癌风险。",
+        "relatedClue": "clue_fat_diet",
+        "category": "预防方法"
+      }
+    ]
+  },
+  "ratingCriteria": {
+    "S": { "minClueDiscoveryRate": 0.8, "maxResourceUsed": 0.7, "keyClueRequired": true, "maxDiseaseStage": "EARLY_CANCER", "endingTypes": ["prevention", "early_detection"] },
+    "A": { "minClueDiscoveryRate": 0.6, "maxResourceUsed": 0.8, "keyClueRequired": true, "maxDiseaseStage": "PRECANCEROUS", "endingTypes": ["prevention", "early_detection"] },
+    "B": { "minClueDiscoveryRate": 0.4, "maxResourceUsed": 0.9, "keyClueRequired": false, "maxDiseaseStage": "EARLY_CANCER", "endingTypes": ["early_detection", "mid_detection"] },
+    "C": { "minClueDiscoveryRate": 0.2, "maxResourceUsed": 1.0, "keyClueRequired": false, "maxDiseaseStage": "MID_CANCER", "endingTypes": ["mid_detection", "late_detection"] },
+    "D": { "minClueDiscoveryRate": 0.0, "maxResourceUsed": 1.0, "keyClueRequired": false, "maxDiseaseStage": "LATE_CANCER", "endingTypes": ["late_detection", "investigation_failed"] }
+  }
+}

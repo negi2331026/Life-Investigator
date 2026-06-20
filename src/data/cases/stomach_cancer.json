@@ -1,0 +1,573 @@
+{
+  "caseId": "stomach_cancer_001",
+  "caseName": "管理者的胃痛",
+  "cancerType": "stomach",
+  "difficulty": "medium",
+  "icon": "🍽️",
+  "tags": ["幽门螺杆菌", "胃镜筛查"],
+  "character": {
+    "name": "王总",
+    "age": 50,
+    "gender": "male",
+    "occupation": "企业管理者",
+    "symptoms": ["上腹隐痛", "饭后腹胀", "偶尔反酸"],
+    "background": "50岁男性，企业管理者，长期应酬饮酒，饮食不规律。近半年频繁胃部不适，自服胃药缓解。",
+    "portrait": "/assets/images/characters/stomach_manager.jpg"
+  },
+  "scenes": [
+    {
+      "sceneId": "office",
+      "sceneName": "办公室",
+      "description": "王总的办公室，桌上堆满了文件和外卖餐盒。",
+      "imageUrl": "/assets/images/scenes/stomach_office.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_s1",
+          "x": 32,
+          "y": 60,
+          "width": 15,
+          "height": 10,
+          "clueId": "clue_diet_habit",
+          "tooltip": "桌上的外卖餐盒",
+          "isHidden": false
+        },
+        {
+          "hotspotId": "hotspot_s2",
+          "x": 68,
+          "y": 85,
+          "width": 12,
+          "height": 12,
+          "clueId": "clue_stomach_medicine",
+          "tooltip": "抽屉里的胃药瓶",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    },
+    {
+      "sceneId": "dinner",
+      "sceneName": "餐厅",
+      "description": "商务宴请场合，觥筹交错。",
+      "imageUrl": "/assets/images/scenes/stomach_dinner.jpg",
+      "hotspots": [
+        {
+          "hotspotId": "hotspot_s3",
+          "x": 59,
+          "y": 62,
+          "width": 18,
+          "height": 12,
+          "clueId": "clue_alcohol",
+          "tooltip": "餐桌上酒杯和酒瓶",
+          "isHidden": false
+        }
+      ],
+      "isLocked": false
+    }
+  ],
+  "clues": [
+    {
+      "clueId": "clue_diet_habit",
+      "name": "饮食不规律",
+      "type": "normal",
+      "description": "办公桌上堆满了外卖餐盒，多为辛辣油腻食物。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "生活习惯",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_stomach_medicine",
+      "name": "长期服胃药",
+      "type": "normal",
+      "description": "抽屉里有多种胃药，已经持续服用半年以上。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_alcohol",
+      "name": "频繁饮酒",
+      "type": "normal",
+      "description": "几乎每晚都有应酬，白酒为主。",
+      "discoveryMethod": "hotspot",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "生活习惯",
+      "isKeyClue": false
+    },
+    {
+      "clueId": "clue_weight_loss",
+      "name": "明显体重下降",
+      "type": "key",
+      "description": "近两个月体重下降了约6公斤，衣服明显变松。",
+      "discoveryMethod": "auto",
+      "prerequisites": ["clue_stomach_medicine"],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_gastroscopy_result",
+      "name": "胃镜检查结果",
+      "type": "key",
+      "description": "胃镜检查已安排，等待内镜报告和病理结果。",
+      "discoveryMethod": "decision",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "检查结果",
+      "isKeyClue": true
+    },
+    {
+      "clueId": "clue_black_stool",
+      "name": "黑便",
+      "type": "key",
+      "description": "出现黑便症状，提示可能存在上消化道出血，情况紧急。",
+      "discoveryMethod": "auto",
+      "prerequisites": [],
+      "cost": 0,
+      "category": "症状",
+      "isKeyClue": true
+    }
+  ],
+  "decisionPoints": [
+    {
+      "decisionId": "decision_s1",
+      "triggerCondition": "王总胃部不适已持续半年，加上长期饮酒和饮食不规律的习惯。你决定如何行动？",
+      "triggerAge": 50,
+      "options": [
+        {
+          "optionId": "opt_s1_1",
+          "text": "继续吃胃药观察，建议少饮酒",
+          "consequence": "开了新的胃药，嘱咐减少饮酒，观察一段时间。没有安排进一步检查。",
+          "healthImpact": -2,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 52,
+          "healthStageChange": "HIGH_RISK",
+          "flags": { "missedEarlyScreening": true }
+        },
+        {
+          "optionId": "opt_s1_2",
+          "text": "建议做胃镜检查",
+          "consequence": "开具了胃镜检查单。胃镜是胃癌筛查的金标准，能直接观察胃黏膜。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "unlocksClue": "clue_gastroscopy_result",
+          "advancesTime": true,
+          "timeAdvanceTo": 51,
+          "healthStageChange": "SYMPTOM_APPEAR",
+          "flags": { "gastroscopyDone": true }
+        },
+        {
+          "optionId": "opt_s1_3",
+          "text": "转诊消化内科进一步评估",
+          "consequence": "开具了消化内科转诊单，进行幽门螺杆菌检测和专科评估。",
+          "healthImpact": 3,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 51,
+          "healthStageChange": "SYMPTOM_APPEAR",
+          "flags": { "referralOnly": true }
+        }
+      ],
+      "timeAdvanceTo": 52
+    },
+    {
+      "decisionId": "decision_s_gastroscopy",
+      "triggerCondition": "胃镜报告显示胃窦部有一个可疑溃疡，边缘不规则。幸好在早期通过胃镜及时发现！现在需要决定下一步处理方案。",
+      "triggerAge": 51,
+      "options": [
+        {
+          "optionId": "opt_sg_1",
+          "text": "取活检并开始规范化治疗",
+          "consequence": "在胃镜下取多处组织送检病理，同时开始幽门螺杆菌根除治疗。积极干预，把握最佳治疗窗口。",
+          "healthImpact": 8,
+          "resourceCost": 5,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 52,
+          "healthStageChange": "EARLY_CANCER",
+          "nextDecisionId": "",
+          "flags": { "activeTreatment": true }
+        },
+        {
+          "optionId": "opt_sg_2",
+          "text": "药物治疗后定期复查胃镜",
+          "consequence": "先行抗溃疡治疗和幽门螺杆菌根除，3个月后复查胃镜对比溃疡变化。",
+          "healthImpact": 4,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "PRECANCEROUS",
+          "nextDecisionId": ""
+        },
+        {
+          "optionId": "opt_sg_3",
+          "text": "只开胃药，不做活检",
+          "consequence": "认为溃疡是良性的，只开了抑酸药和胃黏膜保护剂。",
+          "healthImpact": -2,
+          "resourceCost": 0,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 54,
+          "healthStageChange": "HIGH_RISK",
+          "nextDecisionId": "",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "timeAdvanceTo": 53
+    },
+    {
+      "decisionId": "decision_s_referral",
+      "triggerCondition": "消化内科医生详细问诊后，注意到长期胃药史和饮酒习惯，还安排了幽门螺杆菌检测。专科医生提出了几个建议。",
+      "triggerAge": 51,
+      "options": [
+        {
+          "optionId": "opt_sr_1",
+          "text": "听从专科建议，安排胃镜检查",
+          "consequence": "消化内科医生强烈建议做胃镜直接观察胃黏膜状况，你认为这是合理的选择。",
+          "healthImpact": 5,
+          "resourceCost": 3,
+          "unlocksClue": "clue_gastroscopy_result",
+          "advancesTime": true,
+          "timeAdvanceTo": 52,
+          "healthStageChange": "PRECANCEROUS",
+          "flags": { "gastroscopyDone": true }
+        },
+        {
+          "optionId": "opt_sr_2",
+          "text": "在消化内科门诊定期随访",
+          "consequence": "选择定期在消化内科门诊随访，监测症状变化，暂不安排胃镜。",
+          "healthImpact": 2,
+          "resourceCost": 2,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "SYMPTOM_APPEAR"
+        },
+        {
+          "optionId": "opt_sr_3",
+          "text": "开药缓解症状，暂缓胃镜",
+          "consequence": "开具了强效抑酸药物保护胃黏膜，暂不考虑胃镜检查。",
+          "healthImpact": -2,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 54,
+          "healthStageChange": "HIGH_RISK",
+          "flags": { "missedEarlyScreening": true }
+        }
+      ],
+      "timeAdvanceTo": 53
+    },
+    {
+      "decisionId": "decision_s_delay",
+      "triggerCondition": "胃痛持续加重，王总体重明显下降近6公斤，腹部不适频繁发作，甚至出现了黑便——提示上消化道出血。情况危急！",
+      "triggerAge": 52,
+      "options": [
+        {
+          "optionId": "opt_sd_1",
+          "text": "立即安排胃镜和住院检查",
+          "consequence": "紧急安排了胃镜检查并办理住院手续。虽然有所耽搁，但立即行动仍有机会控制病情。",
+          "healthImpact": 4,
+          "resourceCost": 5,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 53,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "gastroscopyDone": true }
+        },
+        {
+          "optionId": "opt_sd_2",
+          "text": "转诊专科医院多学科会诊",
+          "consequence": "联系专科医院进行多学科会诊。虽然延误了最佳治疗时机，需要多学科协作制定综合方案。",
+          "healthImpact": 1,
+          "resourceCost": 3,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 55,
+          "healthStageChange": "MID_CANCER"
+        },
+        {
+          "optionId": "opt_sd_3",
+          "text": "继续加大胃药剂量",
+          "consequence": "加大了质子泵抑制剂的剂量，未进行任何检查。一次次用胃药掩盖症状，病情却在持续加重。",
+          "healthImpact": -5,
+          "resourceCost": 1,
+          "unlocksClue": "",
+          "advancesTime": true,
+          "timeAdvanceTo": 57,
+          "healthStageChange": "MID_CANCER",
+          "flags": { "severeDelay": true }
+        }
+      ],
+      "timeAdvanceTo": 57
+    }
+  ],
+  "lifeEvents": [
+    {
+      "eventId": "event_s_gastroscopy",
+      "triggerAge": 51,
+      "eventType": "checkup_result",
+      "description": "胃镜检查结果出来了——胃窦部发现一个可疑溃疡，边缘不规则。万幸的是通过早期胃镜及时发现，处于可干预阶段。",
+      "healthStage": "SYMPTOM_APPEAR",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_s_gastroscopy",
+      "requiredOptionId": "opt_s1_2",
+      "flags": { "ulcerFound": true }
+    },
+    {
+      "eventId": "event_s_referral",
+      "triggerAge": 51,
+      "eventType": "checkup_result",
+      "description": "消化内科医生详细询问了病史和饮酒情况，安排了幽门螺杆菌检测，需要更多信息做出判断。",
+      "healthStage": "SYMPTOM_APPEAR",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_s_referral",
+      "requiredOptionId": "opt_s1_3"
+    },
+    {
+      "eventId": "event_sr_gastroscopy",
+      "triggerAge": 52,
+      "eventType": "checkup_result",
+      "description": "胃镜检查结果出来了——胃窦部发现一个可疑溃疡，边缘不规则。虽然通过转诊路径多花了一些时间，但胃镜筛查仍然及时发现了病变，处于可干预阶段。",
+      "healthStage": "PRECANCEROUS",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_s_gastroscopy",
+      "requiredOptionId": "opt_sr_1",
+      "flags": { "ulcerFound": true }
+    },
+    {
+      "eventId": "event_sr_followup_delay",
+      "triggerAge": 53,
+      "eventType": "symptom_worsen",
+      "description": "选择了在专科门诊随访但没有做胃镜。胃痛明显加重，王总体重下降了近6公斤。是时候采取更果断的措施了！",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_weight_loss"],
+      "triggerDecision": "decision_s_delay",
+      "requiredOptionId": "opt_sr_2",
+      "flags": { "blackStoolOccurred": true }
+    },
+    {
+      "eventId": "event_sr_med_delay",
+      "triggerAge": 54,
+      "eventType": "symptom_worsen",
+      "description": "一直用药物缓解症状却没有做胃镜检查。胃痛持续加重，体重下降明显，最近出现了黑便——这是上消化道出血的危险信号！再不检查就来不及了！",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_weight_loss", "clue_black_stool"],
+      "triggerDecision": "decision_s_delay",
+      "requiredOptionId": "opt_sr_3",
+      "flags": { "blackStoolOccurred": true }
+    },
+    {
+      "eventId": "event_s_delay",
+      "triggerAge": 52,
+      "eventType": "symptom_worsen",
+      "description": "胃痛明显加重，王总体重下降了近6公斤，最近还出现了黑便——这是上消化道出血的危险信号！如果再不行动，后果将非常严重。",
+      "healthStage": "HIGH_RISK",
+      "autoDiscoveryClues": ["clue_weight_loss", "clue_black_stool"],
+      "triggerDecision": "decision_s_delay",
+      "requiredOptionId": "opt_s1_1",
+      "flags": { "blackStoolOccurred": true }
+    },
+    {
+      "eventId": "event_sd_gastroscopy",
+      "triggerAge": 53,
+      "eventType": "checkup_result",
+      "description": "紧急胃镜检查结果出来了——胃窦部的溃疡已经明显恶化，近期出现的黑便是上消化道出血的直接证据。虽然有所延误，但胃镜检查仍为后续治疗提供了关键依据。现在需要决定下一步治疗方案。",
+      "healthStage": "MID_CANCER",
+      "autoDiscoveryClues": [],
+      "triggerDecision": "decision_s_gastroscopy",
+      "requiredOptionId": "opt_sd_1",
+      "flags": { "ulcerFound": true }
+    }
+  ],
+  "endings": [
+    {
+      "endingId": "ending_s_prevention",
+      "type": "prevention",
+      "title": "成功预防",
+      "description": "通过早期胃镜检查及时发现胃部病变，配合HP根除治疗和生活方式调整，成功将胃癌风险控制在萌芽阶段。王总减少了饮酒应酬，至今健康状况良好。",
+      "condition": {
+        "minAge": 50,
+        "maxAge": 53,
+        "healthStage": ["SYMPTOM_APPEAR", "PRECANCEROUS"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_sg_2"]
+      },
+      "ratingRange": ["S", "A"]
+    },
+    {
+      "endingId": "ending_s_early",
+      "type": "early_detection",
+      "title": "早期发现",
+      "description": "通过及时的胃镜检查和病理活检，在胃癌尚处于早期阶段时发现了病变。经规范化治疗后顺利康复，预后良好。胃镜筛查在这里发挥了关键作用。",
+      "condition": {
+        "minAge": 51,
+        "maxAge": 54,
+        "healthStage": ["PRECANCEROUS", "EARLY_CANCER"],
+        "keyClueFound": true,
+        "decisionMade": ["opt_sg_1", "opt_sr_1"]
+      },
+      "ratingRange": ["A", "B"]
+    },
+    {
+      "endingId": "ending_s_mid",
+      "type": "mid_detection",
+      "title": "中期发现",
+      "description": "由于在决策过程中过于依赖胃药缓解症状，延误了最佳检查时机。当最终确诊时病变已有进展。虽然仍可治疗，但预后不如早期发现。胃痛反复不愈时应及早做胃镜检查。",
+      "condition": {
+        "minAge": 52,
+        "maxAge": 55,
+        "healthStage": ["SYMPTOM_APPEAR", "HIGH_RISK", "PRECANCEROUS", "EARLY_CANCER", "MID_CANCER"],
+        "decisionMade": ["opt_sg_3", "opt_sr_2", "opt_sr_3", "opt_sd_1", "opt_sd_2", "opt_sd_3"]
+      },
+      "ratingRange": ["B", "C"]
+    },
+    {
+      "endingId": "ending_s_late",
+      "type": "late_detection",
+      "title": "晚期发现",
+      "description": "由于长期用胃药掩盖症状，胃癌已经发展到了相当严重的阶段。治疗难度大大增加。每一盒胃药都可能是拖延的代价。胃部不适反复不愈，胃镜是最直接的检查手段！",
+      "condition": {
+        "minAge": 55,
+        "maxAge": 65,
+        "healthStage": ["MID_CANCER", "LATE_CANCER"],
+        "keyClueFound": false,
+        "decisionMade": []
+      },
+      "ratingRange": ["C", "D"]
+    }
+  ],
+  "bestRoute": {
+  "route": [
+    {
+      "age": 50,
+      "action": "完成场景调查：办公室发现饮食不规律、长期服胃药，餐厅发现频繁饮酒",
+      "description": "第一步：在两个场景收集3条线索。50岁男性，长期饮酒、胃部不适半年且依赖胃药，提示症状持续未根治，属于高危信号。"
+    },
+    {
+      "age": 50,
+      "action": "立即安排胃镜检查",
+      "description": "关键决策：该患者符合胃癌高危人群标准。胃镜是筛查金标准，可直接观察并活检。指南推荐40岁以上高危人群筛查，不应继续服药观察或单纯转诊。"
+    },
+    {
+      "age": 51,
+      "action": "胃镜发现胃窦部不规则溃疡，高度警惕恶性可能",
+      "description": "筛查结果：胃窦部溃疡边缘不规则，需警惕恶性病变。若此前仅服药缓解，溃疡会持续进展，延误诊治。"
+    },
+    {
+      "age": 51,
+      "action": "胃镜下多点活检，同步启动HP根除与抗溃疡治疗",
+      "description": "果断干预：立即活检明确性质，并规范根除幽门螺杆菌、治疗溃疡。早期胃癌内镜/手术切除治愈率超90%，及时干预可避免进展为晚期。"
+    },
+    {
+      "age": 52,
+      "action": "HP根除成功、溃疡愈合，减少饮酒并定期胃镜复查",
+      "description": "长期预后：病理提示高级别上皮内瘤变（早期胃癌），内镜切除后无需化疗。坚持复查与健康管理，预后良好。若延误至出现黑便、消瘦，结局将明显变差。"
+    }
+    ],
+    "keyDecisionPoints": ["decision_s1", "decision_s_gastroscopy"],
+    "milestones": [
+      {
+        "flagKey": "gastroscopyDone",
+        "label": "胃镜检查完成",
+        "positive": true,
+        "triggeredText": "已完成胃镜检查，这是胃癌筛查的金标准",
+        "notTriggeredText": "未进行胃镜检查，一直依赖胃药缓解症状"
+      },
+      {
+        "flagKey": "ulcerFound",
+        "label": "可疑溃疡发现",
+        "positive": true,
+        "triggeredText": "胃镜检查发现了可疑溃疡，得以在早期阶段活检并明确性质",
+        "notTriggeredText": "未通过胃镜发现胃部病变"
+      },
+      {
+        "flagKey": "activeTreatment",
+        "label": "活检+规范治疗",
+        "positive": true,
+        "triggeredText": "采取了活检和规范化治疗，在早期阶段就进行了有效干预",
+        "notTriggeredText": "未采取积极的活检和治疗干预"
+      },
+      {
+        "flagKey": "blackStoolOccurred",
+        "label": "黑便出现",
+        "positive": false,
+        "triggeredText": "出现黑便（上消化道出血），提示病变已明显进展，不再是早期阶段",
+        "notTriggeredText": "未出现黑便，疾病尚未进展到出血阶段"
+      },
+      {
+        "flagKey": "missedEarlyScreening",
+        "label": "错过早期筛查窗口",
+        "positive": false,
+        "triggeredText": "在胃部不适初期一直依赖胃药缓解，错过了最佳胃镜检查时机",
+        "notTriggeredText": "抓住了早期筛查窗口，没有用胃药一拖再拖"
+      },
+      {
+        "flagKey": "severeDelay",
+        "label": "严重延误",
+        "positive": false,
+        "triggeredText": "出现黑便后仍加大胃药剂量，一次次用药物掩盖症状，疾病持续进展",
+        "notTriggeredText": "出现严重警示信号后及时采取了行动"
+      }
+    ],
+    "knowledgePoints": [
+      {
+        "pointId": "kp_s1",
+        "age": 50,
+        "content": "幽门螺杆菌（HP）感染是胃癌最重要的危险因素之一，被WHO列为I类致癌物。根除HP可显著降低胃癌风险。",
+        "relatedClue": "clue_stomach_medicine",
+        "category": "危险因素"
+      },
+      {
+        "pointId": "kp_s2",
+        "age": 50,
+        "content": "长期饮酒和饮食不规律会损伤胃黏膜，增加胃癌风险。反复胃部不适超过2周应做胃镜检查，而非继续吃胃药。",
+        "relatedClue": "clue_diet_habit",
+        "category": "危险因素"
+      },
+      {
+        "pointId": "kp_s3",
+        "age": 50,
+        "content": "胃镜是胃癌筛查的金标准，能直接观察胃黏膜并取活检。中国胃癌筛查指南推荐40岁以上高危人群定期做胃镜。",
+        "relatedClue": "",
+        "category": "筛查方法"
+      },
+      {
+        "pointId": "kp_s4",
+        "age": 51,
+        "content": "早期胃癌通过内镜下切除或手术，5年生存率可达90%以上。发现越早，治疗越简单，预后越好。",
+        "relatedClue": "",
+        "category": "治疗预后"
+      },
+      {
+        "pointId": "kp_s5",
+        "age": 52,
+        "content": "不明原因的体重下降（半年内下降超过5%）和黑便（上消化道出血）是胃癌的重要预警信号，这些症状出现时往往已不是早期。",
+        "relatedClue": "clue_weight_loss",
+        "category": "警示信号"
+      },
+      {
+        "pointId": "kp_s6",
+        "age": 52,
+        "content": "长期服用胃药只能缓解症状，不能治疗根本原因。反复胃部不适是身体在发出信号——做一次胃镜，远胜过吃一年胃药。",
+        "relatedClue": "clue_stomach_medicine",
+        "category": "预防方法"
+      }
+    ]
+  },
+  "ratingCriteria": {
+    "S": { "minClueDiscoveryRate": 0.8, "maxResourceUsed": 0.7, "keyClueRequired": true, "maxDiseaseStage": "EARLY_CANCER", "endingTypes": ["prevention", "early_detection"] },
+    "A": { "minClueDiscoveryRate": 0.6, "maxResourceUsed": 0.8, "keyClueRequired": true, "maxDiseaseStage": "PRECANCEROUS", "endingTypes": ["prevention", "early_detection"] },
+    "B": { "minClueDiscoveryRate": 0.4, "maxResourceUsed": 0.9, "keyClueRequired": false, "maxDiseaseStage": "EARLY_CANCER", "endingTypes": ["early_detection", "mid_detection"] },
+    "C": { "minClueDiscoveryRate": 0.2, "maxResourceUsed": 1.0, "keyClueRequired": false, "maxDiseaseStage": "MID_CANCER", "endingTypes": ["mid_detection", "late_detection"] },
+    "D": { "minClueDiscoveryRate": 0.0, "maxResourceUsed": 1.0, "keyClueRequired": false, "maxDiseaseStage": "LATE_CANCER", "endingTypes": ["late_detection", "investigation_failed"] }
+  }
+}
